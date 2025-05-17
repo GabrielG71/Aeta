@@ -13,10 +13,15 @@ Route::get('/contato', function () {
     return view('contato');
 });
 
-Route::get('/dashboard', function () {
-    $usuarios = User::where('admin', 0)->get();
-    return view('dashboard', compact('usuarios'));
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Rota para o dashboard dos admins
+Route::get('/dashboard', [DashboardUserController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
+
+// Rota para o menu do usuário comum
+Route::get('/menu', function () {
+    return view('menu'); // menu.blade.php
+})->middleware(['auth'])->name('menu');
 
 Route::get('/relatorio', function () {
     if (auth()->user()->admin !== 2) {

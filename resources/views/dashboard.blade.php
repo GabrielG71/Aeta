@@ -12,11 +12,6 @@
         $nivel = auth()->user()->admin;
     @endphp
 
-    {{-- Painel para usuários comuns --}}
-    @if ($nivel === 0)
-        <p class="text-gray-700">Você está logado como. Bem-vindo ao sistema AETA.</p>
-    @endif
-
     {{-- Painel administrativo: nível 1 (admin) ou 2 (master) --}}
     @if ($nivel === 1 || $nivel === 2)
         <div class="mt-6">
