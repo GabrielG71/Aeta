@@ -91,7 +91,7 @@ class DashboardUserController extends Controller
         return redirect()->route('dashboard')->with('success', 'Usuário removido com sucesso.');
     }
 
-    // 🔒 Função de autorização extra
+    // Função de autorização extra
     protected function authorizeAdmin()
     {
         if (!in_array(Auth::user()->admin, [1, 2])) {
