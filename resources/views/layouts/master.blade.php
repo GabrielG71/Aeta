@@ -14,7 +14,7 @@
             <h1 class="text-2xl font-bold text-blue-600">NOVA AETA</h1>
             <nav class="space-x-4 flex items-center">
                 @auth
-                    <span class="text-gray-700">Olá, {{ Auth::user()->nome }}</span>
+                    <span class="text-gray-700">Olá, {{ Auth::user()->name }}</span>
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="text-red-600 hover:text-red-800">Deslogar</button>
