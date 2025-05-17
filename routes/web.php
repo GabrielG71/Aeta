@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/contato', function () {
+    return view('contato');
+});
+
 Route::get('/dashboard', function () {
     $usuarios = User::where('admin', 0)->get();
     return view('dashboard', compact('usuarios'));

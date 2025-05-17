@@ -14,13 +14,13 @@ class DashboardUserController extends Controller
         $user = Auth::user();
         $nivel = $user->admin;
 
-        // Regras de visualização de usuários
+        // Regras de visualização
         if ($nivel === 2) {
-            // Admin master vê todos
-            $usuarios = User::all();
+            // Master vê todos, menos ele mesmo
+            $usuarios = User::where('id', '!=', $user->id)->get();
         } elseif ($nivel === 1) {
-            // Admin comum vê apenas usuários comuns
-            $usuarios = User::where('admin', 0)->get();
+            // Admin comum vê apenas usuários comuns, exceto ele mesmo
+            $usuarios = User::where('admin', 0)->where('id', '!=', $user->id)->get();
         } else {
             // Usuário comum não vê ninguém
             $usuarios = collect();
