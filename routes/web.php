@@ -22,8 +22,10 @@ Route::get('/relatorio', function () {
     return view('relatorio');
 })->middleware(['auth', 'verified'])->name('relatorio');
 
+Route::get('/dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::post('/dashboard/adicionar', [DashboardUserController::class, 'adicionar'])->name('dashboard.adicionar');
+    Route::post('/dashboard/adicionar', [DashboardUserController::class, 'adicionarUsuario'])->name('dashboard.adicionarUsuario');
     Route::post('/dashboard/editar/{id}', [DashboardUserController::class, 'editar'])->name('dashboard.editar');
     Route::delete('/dashboard/remover/{id}', [DashboardUserController::class, 'remover'])->name('dashboard.remover');
 });
