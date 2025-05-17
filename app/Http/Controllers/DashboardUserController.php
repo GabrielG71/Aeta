@@ -12,10 +12,19 @@ class DashboardUserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $nivel = $user->admin; // 0 = comum, 1 = admin, 2 = master
+        $nivel = $user->admin;
 
-        // Todos os usuários podem acessar, mas só admin/master veem a lista de usuários
-        $usuarios = ($nivel >= 1) ? User::all() : collect();
+        // Regras de visualização de usuários
+        if ($nivel === 2) {
+            // Admin master vê todos
+            $usuarios = User::all();
+        } elseif ($nivel === 1) {
+            // Admin comum vê apenas usuários comuns
+            $usuarios = User::where('admin', 0)->get();
+        } else {
+            // Usuário comum não vê ninguém
+            $usuarios = collect();
+        }
 
         return view('dashboard', compact('usuarios', 'nivel'));
     }
