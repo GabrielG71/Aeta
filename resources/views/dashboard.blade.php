@@ -7,7 +7,7 @@
     {{-- Dar bem vindo ao usuario --}}
     <h1 class="text-2xl font-bold mb-4">Bem-vindo, {{ auth()->user()->name }}!</h1>
 
-    {{-- Define o nível de permissão do usuário (0 = comum, 1 = admin, 2 = master) --}}
+    {{-- Define o nível de permissão do usuário (1 = admin, 2 = master) --}}
     @php
         $nivel = auth()->user()->admin;
     @endphp
