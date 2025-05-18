@@ -81,11 +81,6 @@ class DashboardUserController extends Controller
 
         $user = User::findOrFail($id);
 
-        // Impede exclusão de admins ou superiores
-        if ($user->admin !== 0) {
-            abort(403, 'Apenas usuários comuns podem ser removidos.');
-        }
-
         $user->delete();
 
         return redirect()->route('dashboard')->with('success', 'Usuário removido com sucesso.');
