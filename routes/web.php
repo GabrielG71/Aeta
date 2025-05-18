@@ -31,6 +31,22 @@ Route::get('/relatorio', function () {
     return view('relatorio');
 })->middleware(['auth', 'verified'])->name('relatorio');
 
+Route::get('/pagamento', function () {
+    if (!in_array(auth()->user()->admin, [1, 2])) {
+        abort(403);
+    }
+
+    return view('pagamento');
+})->middleware(['auth', 'verified'])->name('pagamento');
+
+Route::get('/eventos', function () {
+    if (!in_array(auth()->user()->admin, [1, 2])) {
+        abort(403);
+    }
+
+    return view('eventos');
+})->middleware(['auth', 'verified'])->name('eventos');
+
 Route::get('/dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {

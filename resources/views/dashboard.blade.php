@@ -100,6 +100,18 @@
                     <button type="submit" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Adicionar</button>
                 </form>
             </div>
+            <div class="mt-6">
+                <a href="{{ route('pagamento') }}"
+                class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                    Gerenciar pagamentos
+                </a>
+            </div>
+            <div class="mt-6">
+                <a href="{{ route('eventos') }}"
+                class="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700">
+                    Gerenciar eventos
+                </a>
+            </div>
         </div>
     @endif
 
