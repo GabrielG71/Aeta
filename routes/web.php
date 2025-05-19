@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use App\Http\Controllers\DashboardUserController;
+use App\Http\Controllers\PagamentoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,6 +39,23 @@ Route::get('/pagamento', function () {
 
     return view('pagamento');
 })->middleware(['auth', 'verified'])->name('pagamento');
+
+// Para admin/master acessar página de criação
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/pagamento', [PagamentoController::class, 'index'])->name('pagamento');
+    Route::post('/pagamento', [PagamentoController::class, 'store'])->name('pagamento.store');
+});
+
+// Para usuário comum visualizar suas cobranças
+Route::get('/menu', [PagamentoController::class, 'verPagamentosDoUsuario'])->middleware(['auth'])->name('menu');
+
+Route::get('/pagamento/sucesso', function () {
+    return view('pagamento.sucesso');
+})->name('pagamento.sucesso');
+
+Route::get('/pagamento/falha', function () {
+    return view('pagamento.falha');
+})->name('pagamento.falha');
 
 Route::get('/eventos', function () {
     if (!in_array(auth()->user()->admin, [1, 2])) {

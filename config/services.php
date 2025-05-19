@@ -35,4 +35,7 @@ return [
         ],
     ],
 
+    'mercadopago' => [
+        'access_token' => env('APP_USR-3982508238201963-051814-8ffda4a23aa9ad9f9601086311b801c6-2444246037'),
+    ],
 ];
