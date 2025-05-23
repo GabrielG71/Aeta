@@ -47,4 +47,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relacionamento many-to-many com pagamentos
+    public function pagamentos()
+    {
+        return $this->belongsToMany(Pagamento::class, 'pagamento_user')
+                    ->withPivot('status')
+                    ->withTimestamps();
+    }
 }

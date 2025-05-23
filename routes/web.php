@@ -20,9 +20,9 @@ Route::get('/dashboard', [DashboardUserController::class, 'index'])
     ->name('dashboard');
 
 // Rota para o menu do usuário comum
-Route::get('/menu', function () {
-    return view('menu'); // menu.blade.php
-})->middleware(['auth'])->name('menu');
+Route::get('/menu', [PagamentoController::class, 'verPagamentosDoUsuario'])
+    ->middleware(['auth'])
+    ->name('menu');
 
 Route::get('/relatorio', function () {
     if (auth()->user()->admin !== 2) {
@@ -32,30 +32,21 @@ Route::get('/relatorio', function () {
     return view('relatorio');
 })->middleware(['auth', 'verified'])->name('relatorio');
 
-Route::get('/pagamento', function () {
-    if (!in_array(auth()->user()->admin, [1, 2])) {
-        abort(403);
-    }
-
-    return view('pagamento');
-})->middleware(['auth', 'verified'])->name('pagamento');
-
-// Para admin/master acessar página de criação
+// Rotas de pagamento para admin/master
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/pagamento', [PagamentoController::class, 'index'])->name('pagamento');
     Route::post('/pagamento', [PagamentoController::class, 'store'])->name('pagamento.store');
+    Route::put('/pagamento/{id}', [PagamentoController::class, 'update'])->name('pagamento.update');
+    Route::delete('/pagamento/{id}', [PagamentoController::class, 'destroy'])->name('pagamento.destroy');
 });
 
-// Para usuário comum visualizar suas cobranças
-Route::get('/menu', [PagamentoController::class, 'verPagamentosDoUsuario'])->middleware(['auth'])->name('menu');
+// Rotas de retorno do Mercado Pago (públicas)
+Route::get('/pagamento/sucesso', [PagamentoController::class, 'sucesso'])->name('pagamento.sucesso');
+Route::get('/pagamento/falha', [PagamentoController::class, 'falha'])->name('pagamento.falha');
+Route::get('/pagamento/pendente', [PagamentoController::class, 'pendente'])->name('pagamento.pendente');
 
-Route::get('/pagamento/sucesso', function () {
-    return view('pagamento.sucesso');
-})->name('pagamento.sucesso');
-
-Route::get('/pagamento/falha', function () {
-    return view('pagamento.falha');
-})->name('pagamento.falha');
+// Webhook do Mercado Pago (público)
+Route::post('/webhook/mercadopago', [PagamentoController::class, 'webhook'])->name('webhook.mercadopago');
 
 Route::get('/eventos', function () {
     if (!in_array(auth()->user()->admin, [1, 2])) {
@@ -64,8 +55,6 @@ Route::get('/eventos', function () {
 
     return view('eventos');
 })->middleware(['auth', 'verified'])->name('eventos');
-
-Route::get('/dashboard', [DashboardUserController::class, 'index'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard/adicionar', [DashboardUserController::class, 'adicionarUsuario'])->name('dashboard.adicionarUsuario');

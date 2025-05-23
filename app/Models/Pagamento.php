@@ -10,15 +10,23 @@ class Pagamento extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
         'descricao',
         'valor',
         'prazo_pagamento',
         'link_checkout',
     ];
 
-    public function user()
+    // Relacionamento many-to-many com users
+    public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsToMany(User::class, 'pagamento_user')
+                    ->withPivot('status')
+                    ->withTimestamps();
+    }
+
+    // Método para verificar se o pagamento está vencido
+    public function isVencido()
+    {
+        return $this->prazo_pagamento < now()->toDateString();
     }
 }
